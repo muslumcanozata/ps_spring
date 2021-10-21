@@ -2,21 +2,20 @@ package net.productsellint.business.abstracts;
 
 import net.productsellint.core.utilities.results.DataResult;
 import net.productsellint.core.utilities.results.Result;
-import net.productsellint.entities.concretes.Product;
-import org.springframework.stereotype.Service;
+import net.productsellint.dataTransferObjects.concretes.ProductDto;
 
 import java.util.List;
 
 public interface ProductService {
-    DataResult<List<Product>> getAll();
-    DataResult<List<Product>> getAll(int pageNo, int pageSize);
-    DataResult<List<Product>> getAllSorted();
+    DataResult<List<ProductDto>> getAll();
+    DataResult<List<ProductDto>> getAll(int pageNo, int pageSize);
+    DataResult<List<ProductDto>> getAllSorted();
 
-    Result add(Product product);
+    Result add(ProductDto productDto);
 
     Result drop(Integer id);
 
-    DataResult<Product> getByProductName(String productName);
+    DataResult<ProductDto> getByProductName(String productName);
 
 
 }
