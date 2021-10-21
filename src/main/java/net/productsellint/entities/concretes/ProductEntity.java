@@ -11,10 +11,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="products")
-public class Product {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
+    @Column(name = "id", insertable = false, updatable = false)
     private Integer id;
 
     @Column(name = "product_name", nullable = false, unique = true)
@@ -24,10 +24,10 @@ public class Product {
     private Double unitPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private CategoryEntity categoryEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "amounttype_id")
-    private AmountType amountType;
+    @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
+    private AmountTypeEntity amountTypeEntity;
 }

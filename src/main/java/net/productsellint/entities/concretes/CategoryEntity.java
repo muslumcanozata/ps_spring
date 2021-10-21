@@ -12,16 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="categories")
-public class Category {
+public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "id", insertable = false, updatable = false)
     private Integer id;
 
     @Column(name = "category_name", nullable = false, unique = true)
     private String categoryName;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
+    @OneToMany(mappedBy = "categoryEntity", fetch = FetchType.LAZY)
+    private List<ProductEntity> productEntities;
 
 }
