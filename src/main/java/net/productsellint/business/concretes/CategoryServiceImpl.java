@@ -4,9 +4,12 @@ import net.productsellint.business.abstracts.CategoryService;
 import net.productsellint.core.utilities.results.*;
 import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
+import net.productsellint.dataTransferObjects.concretes.ProductDto;
 import net.productsellint.entities.concretes.CategoryEntity;
+import net.productsellint.entities.concretes.EntityStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,43 +28,47 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public DataResult<List<CategoryDto>> getAll() {
-        return new SuccessDataResult<List<CategoryDto>>(
-            this.categoryDao.findAll()
+    public ResponseEntity<DataResult<List<CategoryDto>>> getAll() {
+        return ResponseEntity.status(200).body(new SuccessDataResult<List<CategoryDto>>(
+            this.categoryDao.findByEntityStatus(EntityStatus.ACTIVE)
             .stream()
             .map(categoryEntity -> mapper.map(categoryEntity, CategoryDto.class))
             .collect(Collectors.toList()),
-            "Veriler Listelendi.");
+            "Veriler Listelendi."));
     }
 
     @Override
-    public Result add(CategoryDto categoryDto) {
+    public ResponseEntity<Result>  add(CategoryDto categoryDto) {
         CategoryEntity categoryEntity = mapper.map(categoryDto, CategoryEntity.class);
-        try{
-            this.categoryDao.save(categoryEntity);
-            return new SuccessResult("Ürün eklendi.");
-        } catch (Exception e) {
-            return new ErrorResult(e.toString());
-        }
+        this.categoryDao.save(categoryEntity);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün eklendi."));
     }
 
     @Override
-    public Result drop(Integer id) {
-        try{
-            this.categoryDao.deleteById(id);
-            return new SuccessResult("Ürün silindi.");
-        } catch (Exception e) {
-            return new ErrorResult(e.toString());
-        }
+    public ResponseEntity<Result> deleteCategory(Integer id) {
+        this.categoryDao.deleteCategory(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün silindi."));
     }
 
     @Override
-    public DataResult<CategoryDto> getByCategoryName(String categoryName) {
-        return new SuccessDataResult<CategoryDto>(mapper.map(this.categoryDao.getByCategoryName(categoryName), CategoryDto.class), "Veri Listelendi.");
+    public ResponseEntity<Result> activateCategory(Integer id) {
+        this.categoryDao.activateCategory(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün silindi."));
     }
 
     @Override
-    public DataResult<CategoryDto> getById(Integer id) {
-        return new SuccessDataResult<CategoryDto>(mapper.map(this.categoryDao.getById(id), CategoryDto.class), "Veri Listelendi.");
+    public ResponseEntity<Result> disableCategory(Integer id) {
+        this.categoryDao.disableCategory(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün silindi."));
+    }
+
+    @Override
+    public ResponseEntity<DataResult<CategoryDto>> getByCategoryName(String categoryName) {
+        return ResponseEntity.status(200).body(new SuccessDataResult<CategoryDto>(mapper.map(this.categoryDao.getByCategoryName(categoryName), CategoryDto.class), "Veri Listelendi."));
+    }
+
+    @Override
+    public ResponseEntity<DataResult<CategoryDto>> getById(Integer id) {
+        return ResponseEntity.status(200).body(new SuccessDataResult<CategoryDto>(mapper.map(this.categoryDao.getById(id), CategoryDto.class), "Veri Listelendi."));
     }
 }

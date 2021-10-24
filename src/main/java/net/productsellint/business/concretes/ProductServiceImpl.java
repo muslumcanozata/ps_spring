@@ -6,11 +6,16 @@ import net.productsellint.dataAccess.abstracts.AmountTypeDao;
 import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataAccess.abstracts.ProductDao;
 import net.productsellint.dataTransferObjects.concretes.ProductDto;
+import net.productsellint.entities.concretes.AmountTypeEntity;
+import net.productsellint.entities.concretes.CategoryEntity;
+import net.productsellint.entities.concretes.EntityStatus;
 import net.productsellint.entities.concretes.ProductEntity;
+import net.productsellint.exception.custom.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,70 +36,73 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public DataResult<List<ProductDto>> getAll() {
-        return new SuccessDataResult<List<ProductDto>>(
-            this.productDao.findAll()
+    public ResponseEntity<DataResult<List<ProductDto>>> getAll() {
+        List<ProductDto> data = this.productDao.findByEntityStatus(EntityStatus.ACTIVE)
                 .stream()
                 .map(ProductDto::new)
-                .collect(Collectors.toList()),
-            "Veri Listelendi.");
+                .collect(Collectors.toList());
+        return ResponseEntity.status(200).body(new SuccessDataResult<List<ProductDto>>(data, "Veri Listelendi."));
     }
 
     @Override
-    public DataResult<List<ProductDto>> getAll(int pageNo, int pageSize) {
+    public ResponseEntity<DataResult<List<ProductDto>>> getAll(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-        return new SuccessDataResult<List<ProductDto>>(
-            this.productDao.findAll(pageable)
-                .getContent()
+        List<ProductDto> data = this.productDao.findByEntityStatus(EntityStatus.ACTIVE, pageable)
                 .stream()
                 .map(ProductDto::new)
-                .collect(Collectors.toList()),
-            "Veri Listelendi.");
-
+                .collect(Collectors.toList());
+        return ResponseEntity.status(200).body(new SuccessDataResult<>(data, "Veri Listelendi."));
     }
 
     @Override
-    public DataResult<List<ProductDto>> getAllSorted() {
+    public ResponseEntity<DataResult<List<ProductDto>>> getAllSorted() {
         Sort sort = Sort.by(Sort.Direction.ASC, "productName");
-        return new SuccessDataResult<List<ProductDto>>(
-            this.productDao.findAll(sort)
+        List<ProductDto> data = this.productDao.findByEntityStatus(EntityStatus.ACTIVE, sort)
                 .stream()
                 .map(ProductDto::new)
-                .collect(Collectors.toList()), "Veri Listelendi.");
+                .collect(Collectors.toList());
+        return ResponseEntity.status(200).body(new SuccessDataResult<>(data, "Veri Listelendi."));
     }
 
     @Override
-    public Result add(ProductDto productDto) {
-        ///Category categoryEntity = this.categoryDao.findById(productDto.getCategoryId());
+    public ResponseEntity<Result> add(ProductDto productDto) {
+        CategoryEntity categoryEntity = this.categoryDao.findById(productDto.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productDto.getCategoryId()));
+        AmountTypeEntity amountTypeEntity = this.amountTypeDao.findById(productDto.getAmountTypeId()).orElseThrow();
+        EntityStatus entityStatus = EntityStatus.ACTIVE;
         ProductEntity productEntity = new ProductEntity(
                 productDto.getId(),
                 productDto.getProductName(),
                 productDto.getUnitPrice(),
-                this.categoryDao.getById(productDto.getCategoryId()),
-                this.amountTypeDao.getById(productDto.getAmountTypeId())
+                categoryEntity,
+                amountTypeEntity,
+                entityStatus
         );
-        try{
-            this.productDao.save(productEntity);
-            return new SuccessResult("Ürün eklendi.");
-        } catch (Exception e) {
-            return new ErrorResult(e.toString());
-        }
+        this.productDao.save(productEntity);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün Eklendi."));
     }
 
     @Override
-    public Result drop(Integer id) {
-        try{
-            this.productDao.deleteById(id);
-            return new SuccessResult("Ürün silindi.");
-        } catch (Exception e) {
-            return new ErrorResult(e.toString());
-        }
+    public ResponseEntity<Result> deleteProduct(Integer id) {
+        this.productDao.deleteProduct(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün silindi."));
     }
 
     @Override
-    public DataResult<ProductDto> getByProductName(String productName) {
-        return new SuccessDataResult<ProductDto>(
-            new ProductDto(this.productDao.getByProductName(productName)),
-            "Veri Listelendi.");
+    public ResponseEntity<Result> activateProduct(Integer id) {
+        this.productDao.activateProduct(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün aktif."));
+    }
+
+    @Override
+    public ResponseEntity<Result> disableProduct(Integer id) {
+        this.productDao.disableProduct(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün devre dışı."));
+    }
+
+    @Override
+    public ResponseEntity<DataResult<ProductDto>> getByProductNameAndEntityStatus(String productName, EntityStatus entityStatus) {
+        return ResponseEntity.status(200).body(new SuccessDataResult<>(
+            new ProductDto(this.productDao.getByProductNameAndEntityStatus(productName, entityStatus)),
+            "Veri Listelendi."));
     }
 }

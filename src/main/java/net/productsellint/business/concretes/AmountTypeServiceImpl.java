@@ -7,6 +7,7 @@ import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
 import net.productsellint.entities.concretes.AmountTypeEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,42 +25,44 @@ public class AmountTypeServiceImpl implements AmountTypeService {
         this.mapper = mapper;
     }
 
-    public DataResult<List<AmountTypeDto>> getAll() {
-        return new SuccessDataResult<List<AmountTypeDto>>(
+    public ResponseEntity<DataResult<List<AmountTypeDto>>> getAll() {
+        return ResponseEntity.status(200).body(new SuccessDataResult<>(
             this.amountTypeDao.findAll()
             .stream()
             .map(amountTypeEntity -> mapper.map(amountTypeEntity, AmountTypeDto.class))
             .collect(Collectors.toList()),
-            "Veriler Listelendi.");
+            "Veriler Listelendi."));
     }
 
-    public Result add(AmountTypeDto amountTypeDto) {
+    public ResponseEntity<Result> add(AmountTypeDto amountTypeDto) {
         AmountTypeEntity amountTypeEntity = mapper.map(amountTypeDto, AmountTypeEntity.class);
-        try{
-            this.amountTypeDao.save(amountTypeEntity);
-            return new SuccessResult("Ürün eklendi.");
-        } catch (Exception e) {
-            return new ErrorResult(e.toString());
-        }
+        this.amountTypeDao.save(amountTypeEntity);
+        return ResponseEntity.status(200).body(new SuccessResult("Type eklendi."));
     }
 
-    public Result drop(Integer id) {
-        try{
-            this.amountTypeDao.deleteById(id);
-            return new SuccessResult("Ürün silindi.");
-        } catch (Exception e) {
-            return new ErrorResult(e.toString());
-        }
+    public ResponseEntity<Result> deleteAmountType(Integer id) {
+        this.amountTypeDao.deleteAmountType(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Type silindi."));
     }
 
-    public DataResult<AmountTypeDto> getByType(String type) {
-        return new SuccessDataResult<AmountTypeDto>(
+    public ResponseEntity<Result> disableAmountType(Integer id) {
+        this.amountTypeDao.disableAmountType(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Type devre dışı."));
+    }
+
+    public ResponseEntity<Result> activateAmountType(Integer id) {
+        this.amountTypeDao.activateAmountType(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Type aktif."));
+    }
+
+    public ResponseEntity<DataResult<AmountTypeDto>> getByType(String type) {
+        return ResponseEntity.status(200).body(new SuccessDataResult<>(
             mapper.map(this.amountTypeDao.getByType(type), AmountTypeDto.class),
-            "Veriler Listelendi.");
+            "Veriler Listelendi."));
     }
-    public DataResult<AmountTypeDto> getById(Integer id) {
-        return new SuccessDataResult<AmountTypeDto>(
+    public ResponseEntity<DataResult<AmountTypeDto>> getById(Integer id) {
+        return ResponseEntity.status(200).body(new SuccessDataResult<>(
                 mapper.map(this.amountTypeDao.getById(id), AmountTypeDto.class),
-                "Veriler Listelendi.");
+                "Veriler Listelendi."));
     }
 }
