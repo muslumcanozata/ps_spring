@@ -24,4 +24,7 @@ public class AmountTypeEntity {
     @OneToMany(mappedBy = "amountTypeEntity")
     private List<ProductEntity> productEntities;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+    private EntityStatus entityStatus;
 }

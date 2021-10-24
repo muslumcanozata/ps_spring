@@ -30,4 +30,8 @@ public class ProductEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
     private AmountTypeEntity amountTypeEntity;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+    private EntityStatus entityStatus;
 }

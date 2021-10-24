@@ -24,4 +24,7 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "categoryEntity", fetch = FetchType.LAZY)
     private List<ProductEntity> productEntities;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+    private EntityStatus entityStatus;
 }
