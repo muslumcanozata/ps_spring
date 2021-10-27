@@ -3,6 +3,9 @@ package net.productsellint.dataTransferObjects.concretes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.productsellint.dataAccess.abstracts.AmountTypeDao;
+import net.productsellint.entities.concretes.AmountTypeEntity;
+import net.productsellint.entities.concretes.EntityStatus;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,5 +18,5 @@ public class AmountTypeDto {
     @NotNull(message = "type boş bırakılamaz")
     private String type;
     @NotNull(message = "status boş bırakılamaz")
-    private Integer status;
+    private Enum status;
 }
