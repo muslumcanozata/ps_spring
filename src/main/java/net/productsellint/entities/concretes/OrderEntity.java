@@ -3,26 +3,29 @@ package net.productsellint.entities.concretes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
+import java.util.UUID;
 
 @Data
-@Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name="products")
-public class ProductEntity {
+@AllArgsConstructor
+@Entity
+@Table(name = "orders")
+public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private Integer id;
 
-    @Column(name = "product_name", nullable = false, unique = true)
-    private String productName;
+    @Column(name = "uuid", nullable = false)
+    private UUID uuid;
 
-    @Column(name = "unit_price", nullable = false)
-    private Double unitPrice;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private ProductEntity productEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -32,11 +35,12 @@ public class ProductEntity {
     @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
     private AmountTypeEntity amountTypeEntity;
 
-    @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
-    private List<StockEntity> stockEntities;
+    @Column(name = "amount", nullable = false, unique = true)
+    private Float amount;
 
-    @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
-    private List<OrderEntity> orderEntities;
+    @Column(name = "date", nullable = false, unique = true)
+    @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+    private Date date;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")

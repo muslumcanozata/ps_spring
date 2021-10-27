@@ -24,6 +24,12 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "categoryEntity", fetch = FetchType.LAZY)
     private List<ProductEntity> productEntities;
 
+    @OneToMany(mappedBy = "categoryEntity", fetch = FetchType.LAZY)
+    private List<StockEntity> stockEntities;
+
+    @OneToMany(mappedBy = "categoryEntity", fetch = FetchType.LAZY)
+    private List<OrderEntity> orderEntities;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private EntityStatus entityStatus;

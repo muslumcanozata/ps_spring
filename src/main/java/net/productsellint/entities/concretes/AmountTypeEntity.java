@@ -25,6 +25,12 @@ public class AmountTypeEntity {
     @OneToMany(mappedBy = "amountTypeEntity")
     private List<ProductEntity> productEntities;
 
+    @OneToMany(mappedBy = "amountTypeEntity", fetch = FetchType.LAZY)
+    private List<StockEntity> stockEntities;
+
+    @OneToMany(mappedBy = "amountTypeEntity", fetch = FetchType.LAZY)
+    private List<OrderEntity> orderEntities;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private EntityStatus entityStatus;

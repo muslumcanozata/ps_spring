@@ -5,24 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="products")
-public class ProductEntity {
+@Entity
+@Table(name = "stocks")
+public class StockEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private Integer id;
 
-    @Column(name = "product_name", nullable = false, unique = true)
-    private String productName;
-
-    @Column(name = "unit_price", nullable = false)
-    private Double unitPrice;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private ProductEntity productEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -32,11 +29,11 @@ public class ProductEntity {
     @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
     private AmountTypeEntity amountTypeEntity;
 
-    @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
-    private List<StockEntity> stockEntities;
+    @Column(name = "ideal_stock", nullable = false, unique = true)
+    private Float idealStock;
 
-    @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
-    private List<OrderEntity> orderEntities;
+    @Column(name = "amount", nullable = false, unique = true)
+    private Float amount;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
