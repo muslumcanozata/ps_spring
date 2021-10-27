@@ -1,6 +1,7 @@
 package net.productsellint.api.controllers;
 
 import net.productsellint.business.abstracts.AmountTypeService;
+import net.productsellint.business.concretes.AmountTypeServiceImpl;
 import net.productsellint.core.utilities.results.DataResult;
 import net.productsellint.core.utilities.results.Result;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
@@ -16,48 +17,54 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/amountTypes")
 public class AmountTypesController {
-    private final AmountTypeService amountTypeService;
+    private final AmountTypeServiceImpl amountTypeServiceImpl;
 
     @Autowired
-    public AmountTypesController(AmountTypeService amountTypeService) {
+    public AmountTypesController(AmountTypeServiceImpl amountTypeServiceImpl) {
         super();
-        this.amountTypeService = amountTypeService;
+        this.amountTypeServiceImpl = amountTypeServiceImpl;
     }
 
     @GetMapping("/getAll")
-    ResponseEntity<DataResult<List<AmountTypeDto>>> getAll() {
-        return this.amountTypeService.getAll();
+    ResponseEntity<List<AmountTypeDto>> getAll() {
+        return ResponseEntity.status(200).body(this.amountTypeServiceImpl.getAll());
     }
 
     @GetMapping("/addType")
-    ResponseEntity<Result> add(@RequestParam AmountTypeDto amountTypeDto) {
-        return this.amountTypeService.add(amountTypeDto);
+    ResponseEntity add(@RequestParam AmountTypeDto amountTypeDto) {
+        this.amountTypeServiceImpl.add(amountTypeDto);
+        return ResponseEntity.status(200).body("Ürün eklendi.");
+
     }
 
     @GetMapping("/deleteAmountType")
-    ResponseEntity<Result> deleteAmountType(@RequestParam Integer id) {
-        return this.amountTypeService.deleteAmountType(id);
+    ResponseEntity deleteAmountType(@RequestParam Integer id) {
+        this.amountTypeServiceImpl.deleteAmountType(id);
+        return ResponseEntity.status(200).body("Ürün silindi.");
+
     }
 
     @GetMapping("/disableAmountType")
-    ResponseEntity<Result> disableAmountType(@RequestParam Integer id) {
-        return this.amountTypeService.disableAmountType(id);
+    ResponseEntity disableAmountType(@RequestParam Integer id) {
+        this.amountTypeServiceImpl.disableAmountType(id);
+        return ResponseEntity.status(200).body("Ürün devre dışı.");
+
     }
 
     @GetMapping("/activateAmountType")
-    ResponseEntity<Result> activateAmountType(@RequestParam Integer id) {
-        return this.amountTypeService.activateAmountType(id);
+    ResponseEntity activateAmountType(@RequestParam Integer id) {
+        this.amountTypeServiceImpl.activateAmountType(id);
+        return ResponseEntity.status(200).body("Ürün aktif.");
+
     }
 
-
-
     @GetMapping("/getByType")
-    ResponseEntity<DataResult<AmountTypeDto>> getByType(@RequestParam String type) {
-        return this.amountTypeService.getByType(type);
+    ResponseEntity<AmountTypeDto> getByType(@RequestParam String type) {
+        return ResponseEntity.status(200).body(this.amountTypeServiceImpl.getByType(type));
     }
 
     @GetMapping("/getById")
-    ResponseEntity<DataResult<AmountTypeDto>> getById(@RequestParam Integer id) {
-        return this.amountTypeService.getById(id);
+    ResponseEntity<AmountTypeDto> getById(@RequestParam Integer id) {
+        return ResponseEntity.status(200).body(this.amountTypeServiceImpl.getById(id));
     }
 }

@@ -1,6 +1,7 @@
 package net.productsellint.api.controllers;
 
 import net.productsellint.business.abstracts.CategoryService;
+import net.productsellint.business.concretes.CategoryServiceImpl;
 import net.productsellint.core.utilities.results.DataResult;
 import net.productsellint.core.utilities.results.Result;
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
@@ -16,46 +17,50 @@ import java.util.List;
 @RestController
 @RequestMapping("api/categories")
 public class CategoriesController {
-    private final CategoryService categoryService;
+    private final CategoryServiceImpl categoryServiceImpl;
 
     @Autowired
-    public CategoriesController(CategoryService categoryService) {
+    public CategoriesController(CategoryServiceImpl categoryServiceImpl) {
         super();
-        this.categoryService = categoryService;
+        this.categoryServiceImpl = categoryServiceImpl;
     }
 
     @GetMapping("/getAll")
-    ResponseEntity<DataResult<List<CategoryDto>>> getAll() {
-        return this.categoryService.getAll();
+    ResponseEntity<List<CategoryDto>> getAll() {
+        return ResponseEntity.status(200).body(this.categoryServiceImpl.getAll());
     }
 
     @GetMapping("/addCategory")
-    ResponseEntity<Result> add(@RequestParam CategoryDto categoryDto) {
-        return this.categoryService.add(categoryDto);
+    ResponseEntity add(@RequestParam CategoryDto categoryDto) {
+        this.categoryServiceImpl.add(categoryDto);
+        return ResponseEntity.status(200).body("Ürün eklendi.");
     }
 
     @GetMapping("/deleteCategory")
-    ResponseEntity<Result> deleteCategory(@RequestParam Integer id) {
-        return this.categoryService.deleteCategory(id);
+    ResponseEntity deleteCategory(@RequestParam Integer id) {
+        this.categoryServiceImpl.deleteCategory(id);
+        return ResponseEntity.status(200).body("Ürün silindi.");
     }
 
     @GetMapping("/activateCategory")
-    ResponseEntity<Result> activateCategory(@RequestParam Integer id) {
-        return this.categoryService.activateCategory(id);
+    ResponseEntity activateCategory(@RequestParam Integer id) {
+        this.categoryServiceImpl.activateCategory(id);
+        return ResponseEntity.status(200).body("Ürün aktif.");
     }
 
     @GetMapping("/disableCategory")
-    ResponseEntity<Result> disableCategory(@RequestParam Integer id) {
-        return this.categoryService.disableCategory(id);
+    ResponseEntity disableCategory(@RequestParam Integer id) {
+        this.categoryServiceImpl.disableCategory(id);
+        return ResponseEntity.status(200).body("Ürün devre dışı.");
     }
 
     @GetMapping("/getByCategoryName")
-    ResponseEntity<DataResult<CategoryDto>> getByCategoryName(@RequestParam String categoryName) {
-        return this.categoryService.getByCategoryName(categoryName);
+    ResponseEntity<CategoryDto> getByCategoryName(@RequestParam String categoryName) {
+        return ResponseEntity.status(200).body(this.categoryServiceImpl.getByCategoryName(categoryName));
     }
 
     @GetMapping("/getByCategoryId")
-    ResponseEntity<DataResult<CategoryDto>> getById(@RequestParam Integer id) {
-        return this.categoryService.getById(id);
+    ResponseEntity<CategoryDto> getById(@RequestParam Integer id) {
+        return ResponseEntity.status(200).body(this.categoryServiceImpl.getById(id));
     }
 }

@@ -1,8 +1,8 @@
 package net.productsellint.api.controllers;
 
-import net.productsellint.business.abstracts.ProductService;
-import net.productsellint.core.utilities.results.DataResult;
+import net.productsellint.business.concretes.ProductServiceImpl;
 import net.productsellint.core.utilities.results.Result;
+import net.productsellint.core.utilities.results.SuccessResult;
 import net.productsellint.dataTransferObjects.concretes.ProductDto;
 import net.productsellint.entities.concretes.EntityStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,56 +12,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/products")
 public class ProductsController {
-    private final ProductService productService;
+    private final ProductServiceImpl productServiceImpl;
 
     @Autowired
-    public ProductsController(ProductService productService) {
+    public ProductsController(ProductServiceImpl productServiceImpl) {
         super();
-        this.productService = productService;
+        this.productServiceImpl = productServiceImpl;
     }
 
     @GetMapping("/getAll")
-    ResponseEntity<DataResult<List<ProductDto>>> getAll() {
-        return this.productService.getAll();
+    public ResponseEntity<Object> getAll() {
+        List<ProductDto> productDtoList = this.productServiceImpl.getAll();
+
+        Map<String, Object> map = new HashMap();
+        map.put("products", productDtoList);
+        map.put("size", productDtoList.size());
+
+        return ResponseEntity.status(200).body(map);
     }
 
     @GetMapping("/getAllByPage")
-    ResponseEntity<DataResult<List<ProductDto>>> getAll(@RequestParam int pageNo, @RequestParam int pageSize) {
-        return this.productService.getAll(pageNo, pageSize);
+    ResponseEntity<List<ProductDto>> getAll(@RequestParam int pageNo, @RequestParam int pageSize) {
+        return ResponseEntity.status(200).body(this.productServiceImpl.getAll(pageNo, pageSize));
     }
 
     @GetMapping("/getAllSorted")
-    ResponseEntity<DataResult<List<ProductDto>>> getAllSorted() {
-        return this.productService.getAllSorted();
+    ResponseEntity<List<ProductDto>> getAllSorted() {
+        return ResponseEntity.status(200).body(this.productServiceImpl.getAllSorted());
     }
 
     @GetMapping("/addProduct")
-    ResponseEntity<Result> add(@RequestParam ProductDto productDto) {
-        return this.productService.add(productDto);
+    ResponseEntity add(@RequestParam ProductDto productDto) {
+        this.productServiceImpl.add(productDto);
+        return ResponseEntity.status(200).body("Ürün Eklendi.");
     }
 
     @GetMapping("/deleteProduct")
-    ResponseEntity<Result> deleteProduct(@RequestParam Integer id) {
-        return this.productService.deleteProduct(id);
+    ResponseEntity deleteProduct(@RequestParam Integer id) {
+        this.productServiceImpl.deleteProduct(id);
+        return ResponseEntity.status(200).body("Ürün silindi.");
+
     }
 
     @GetMapping("/activateProduct")
-    ResponseEntity<Result> activateProduct(@RequestParam Integer id) {
-        return this.productService.activateProduct(id);
+    ResponseEntity activateProduct(@RequestParam Integer id) {
+        this.productServiceImpl.activateProduct(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün aktif."));
     }
 
     @GetMapping("/disableProduct")
-    ResponseEntity<Result> disableProduct(@RequestParam Integer id) {
-        return this.productService.disableProduct(id);
+    ResponseEntity disableProduct(@RequestParam Integer id) {
+        this.productServiceImpl.disableProduct(id);
+        return ResponseEntity.status(200).body(new SuccessResult("Ürün devre dışı."));
     }
 
     @GetMapping("/getByProductName")
-    ResponseEntity<DataResult<ProductDto>> getByProductNameAndEntityStatus(@RequestParam String productName, @RequestParam EntityStatus entityStatus) {
-        return this.productService.getByProductNameAndEntityStatus(productName, entityStatus);
+    ResponseEntity<ProductDto> getByProductNameAndEntityStatus(@RequestParam String productName, @RequestParam EntityStatus entityStatus) {
+        return ResponseEntity.status(200).body(this.productServiceImpl.getByProductNameAndEntityStatus(productName, entityStatus));
     }
 }
