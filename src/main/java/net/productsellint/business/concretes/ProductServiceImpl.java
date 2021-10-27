@@ -63,13 +63,13 @@ public class ProductServiceImpl {
         CategoryEntity categoryEntity = this.categoryDao.findById(productDto.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productDto.getCategoryId()));
         AmountTypeEntity amountTypeEntity = this.amountTypeDao.findById(productDto.getAmountTypeId()).orElseThrow(() -> new AmountTypeNotFoundException(productDto.getAmountTypeId()));
         EntityStatus entityStatus = EntityStatus.ACTIVE;
-        ProductEntity productEntity = new ProductEntity(
+        ProductEntity productEntity = new ProductEntity(/*
                 productDto.getId(),
                 productDto.getProductName(),
                 productDto.getUnitPrice(),
                 categoryEntity,
                 amountTypeEntity,
-                entityStatus
+                entityStatus*/
         );
         this.productDao.save(productEntity);
     }
