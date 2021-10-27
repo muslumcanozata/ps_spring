@@ -35,10 +35,10 @@ public class OrderEntity {
     @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
     private AmountTypeEntity amountTypeEntity;
 
-    @Column(name = "amount", nullable = false, unique = true)
+    @Column(name = "amount", nullable = false)
     private Float amount;
 
-    @Column(name = "date", nullable = false, unique = true)
+    @Column(name = "date", nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private Date date;
 

@@ -29,10 +29,10 @@ public class StockEntity {
     @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
     private AmountTypeEntity amountTypeEntity;
 
-    @Column(name = "ideal_stock", nullable = false, unique = true)
+    @Column(name = "ideal_stock", nullable = false)
     private Float idealStock;
 
-    @Column(name = "amount", nullable = false, unique = true)
+    @Column(name = "amount", nullable = false)
     private Float amount;
 
     @Enumerated(EnumType.ORDINAL)

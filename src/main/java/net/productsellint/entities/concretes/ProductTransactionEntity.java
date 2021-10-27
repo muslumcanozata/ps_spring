@@ -24,13 +24,13 @@ public class ProductTransactionEntity {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductEntity productEntity;
 
-    @Column(name = "amount", nullable = false, unique = true)
+    @Column(name = "amount", nullable = false)
     private Float amount;
 
-    @Column(name = "iotype", nullable = false, unique = true)
+    @Column(name = "iotype", nullable = false)
     private Boolean iotype;
 
-    @Column(name = "date", nullable = false, unique = true)
+    @Column(name = "date", nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private Date date;
 
