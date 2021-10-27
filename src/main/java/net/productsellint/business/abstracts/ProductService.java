@@ -19,5 +19,5 @@ public interface ProductService {
     ResponseEntity<Result> activateProduct(Integer id);
     ResponseEntity<Result> disableProduct(Integer id);
 
-    ResponseEntity<DataResult<ProductDto>> getByProductNameAndEntityStatus(String productName, EntityStatus entityStatus);
+    ProductDto getByProductNameAndEntityStatus(String productName, EntityStatus entityStatus);
 }
