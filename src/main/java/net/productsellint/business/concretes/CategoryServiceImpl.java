@@ -1,7 +1,6 @@
 package net.productsellint.business.concretes;
 
 import net.productsellint.dataAccess.abstracts.CategoryDao;
-import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
 import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.EntityStatus;

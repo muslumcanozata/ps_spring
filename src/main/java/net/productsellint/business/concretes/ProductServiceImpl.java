@@ -1,7 +1,5 @@
 package net.productsellint.business.concretes;
 
-import net.productsellint.business.abstracts.ProductService;
-import net.productsellint.core.utilities.results.*;
 import net.productsellint.dataAccess.abstracts.AmountTypeDao;
 import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataAccess.abstracts.ProductDao;
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

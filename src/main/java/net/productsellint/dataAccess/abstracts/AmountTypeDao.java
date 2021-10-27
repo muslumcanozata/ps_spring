@@ -1,10 +1,7 @@
 package net.productsellint.dataAccess.abstracts;
 
 import net.productsellint.entities.concretes.AmountTypeEntity;
-import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.EntityStatus;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +25,4 @@ public interface AmountTypeDao extends JpaRepository<AmountTypeEntity, Integer> 
     @Modifying
     @Query("update AmountTypeEntity a set a.entityStatus = 0 where a.id = :id")
     void activateAmountType(@Param("id") Integer id);
-
-
 }

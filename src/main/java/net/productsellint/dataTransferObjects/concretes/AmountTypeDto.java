@@ -3,9 +3,6 @@ package net.productsellint.dataTransferObjects.concretes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.productsellint.dataAccess.abstracts.AmountTypeDao;
-import net.productsellint.entities.concretes.AmountTypeEntity;
-import net.productsellint.entities.concretes.EntityStatus;
 
 import javax.validation.constraints.NotNull;
 

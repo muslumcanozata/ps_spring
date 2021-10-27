@@ -10,15 +10,12 @@ import net.productsellint.entities.concretes.AmountTypeEntity;
 import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.EntityStatus;
 import net.productsellint.entities.concretes.ProductEntity;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.data.domain.PageRequest;
