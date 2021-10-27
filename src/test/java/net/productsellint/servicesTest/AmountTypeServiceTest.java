@@ -4,9 +4,7 @@ package net.productsellint.servicesTest;
 import net.productsellint.business.concretes.AmountTypeServiceImpl;
 import net.productsellint.dataAccess.abstracts.AmountTypeDao;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
-import net.productsellint.dataTransferObjects.concretes.CategoryDto;
 import net.productsellint.entities.concretes.AmountTypeEntity;
-import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.EntityStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
