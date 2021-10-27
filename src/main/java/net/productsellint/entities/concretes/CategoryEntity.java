@@ -27,4 +27,10 @@ public class CategoryEntity {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private EntityStatus entityStatus;
+
+    public CategoryEntity(Integer id, String categoryName, EntityStatus entityStatus) {
+        this.setId(id);
+        this.setCategoryName(categoryName);
+        this.setEntityStatus(entityStatus);
+    }
 }

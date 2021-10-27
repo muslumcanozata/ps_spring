@@ -3,6 +3,7 @@ package net.productsellint.entities.concretes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,4 +28,10 @@ public class AmountTypeEntity {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private EntityStatus entityStatus;
+
+    public AmountTypeEntity(Integer id, String type, EntityStatus entityStatus) {
+        this.setId(id);
+        this.setType(type);
+        this.setEntityStatus(entityStatus);
+    }
 }
