@@ -20,7 +20,7 @@ public class ProductTransactionDto {
     @NotNull(message = "miktar boş bırakılamaz")
     private Float amount;
     @NotNull(message = "iotype boş bırakılamaz")
-    private Boolean iotype;
+    private Enum ioType;
     @NotNull(message = "tarih boş bırakılamaz")
     @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private Date date;

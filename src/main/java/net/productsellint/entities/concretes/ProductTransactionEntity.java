@@ -28,7 +28,7 @@ public class ProductTransactionEntity {
     private Float amount;
 
     @Column(name = "iotype", nullable = false)
-    private Boolean iotype;
+    private IOType iotype;
 
     @Column(name = "date", nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss")
