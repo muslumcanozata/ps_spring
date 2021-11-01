@@ -2,7 +2,6 @@ package net.productsellint.dataTransferObjects.concretes;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.productsellint.entities.concretes.ProductEntity;
 
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +21,7 @@ public class ProductDto {
     @NotNull(message = "type id boş bırakılamaz")
     private Integer amountTypeId;
     @NotNull(message = "type ismi boş bırakılamaz")
-    private String amountTypeName;
+    private String amountTypeType;
     @NotNull(message = "status boş bırakılamaz")
     private Enum status;
 }
