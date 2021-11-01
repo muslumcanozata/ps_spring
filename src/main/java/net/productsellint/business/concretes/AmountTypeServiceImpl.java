@@ -1,4 +1,4 @@
-package net.productsellint.business.concretes;
+package net.productsellint.business.concretes; // java web uygulamaları com. ile başlar
 
 import net.productsellint.dataAccess.abstracts.AmountTypeDao;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AmountTypeServiceImpl {
+public class AmountTypeServiceImpl { // interfaceden implemente edilmeli
     private final AmountTypeDao amountTypeDao;
     private final ModelMapper mapper;
 
-    @Autowired
+    @Autowired// buna gerek yok
     public AmountTypeServiceImpl(AmountTypeDao amountTypeDao, ModelMapper mapper) {
-        super();
+        super();//buna gerek yok
         this.amountTypeDao = amountTypeDao;
         this.mapper = mapper;
     }
