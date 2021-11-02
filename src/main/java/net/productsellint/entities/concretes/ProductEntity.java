@@ -1,15 +1,12 @@
 package net.productsellint.entities.concretes;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="products")
 public class ProductEntity {
@@ -32,13 +29,19 @@ public class ProductEntity {
     @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
     private AmountTypeEntity amountTypeEntity;
 
-    @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
-    private List<StockEntity> stockEntities;
-
-    @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
-    private List<OrderEntity> orderEntities;
+    @Column(name = "stock")
+    private Float stock;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private EntityStatus entityStatus;
+
+    public ProductEntity(String productName, Double unitPrice, CategoryEntity categoryEntity, AmountTypeEntity amountTypeEntity, Float stock, EntityStatus entityStatus) {
+        this.productName = productName;
+        this.unitPrice = unitPrice;
+        this.categoryEntity = categoryEntity;
+        this.amountTypeEntity = amountTypeEntity;
+        this.stock = stock;
+        this.entityStatus = entityStatus;
+    }
 }
