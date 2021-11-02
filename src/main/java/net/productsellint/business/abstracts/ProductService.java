@@ -1,23 +1,21 @@
 package net.productsellint.business.abstracts;
 
-import net.productsellint.core.utilities.results.DataResult;
-import net.productsellint.core.utilities.results.Result;
 import net.productsellint.dataTransferObjects.concretes.ProductDto;
+import net.productsellint.dataTransferObjects.concretes.ProductRequest;
 import net.productsellint.entities.concretes.EntityStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ProductService {
-    ResponseEntity<DataResult<List<ProductDto>>> getAll();
-    ResponseEntity<DataResult<List<ProductDto>>> getAll(int pageNo, int pageSize);
-    ResponseEntity<DataResult<List<ProductDto>>> getAllSorted();
+    List<ProductDto> getAll();
+    List<ProductDto> getAll(int pageNo, int pageSize);
+    List<ProductDto> getAllSorted();
 
-    ResponseEntity<Result> add(ProductDto productDto);
+    void add(ProductRequest productRequest);
 
-    ResponseEntity<Result> deleteProduct(Integer id);
-    ResponseEntity<Result> activateProduct(Integer id);
-    ResponseEntity<Result> disableProduct(Integer id);
+    void deleteProduct(Integer id);
+    void activateProduct(Integer id);
+    void disableProduct(Integer id);
 
     ProductDto getByProductNameAndEntityStatus(String productName, EntityStatus entityStatus);
 }
