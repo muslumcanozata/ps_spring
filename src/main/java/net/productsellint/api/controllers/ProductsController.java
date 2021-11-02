@@ -3,6 +3,7 @@ package net.productsellint.api.controllers;
 import net.productsellint.business.concretes.ProductServiceImpl;
 import net.productsellint.core.utilities.results.SuccessResult;
 import net.productsellint.dataTransferObjects.concretes.ProductDto;
+import net.productsellint.dataTransferObjects.concretes.ProductRequest;
 import net.productsellint.entities.concretes.EntityStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,8 @@ public class ProductsController {
     }
 
     @GetMapping("/addProduct")
-    ResponseEntity add(@RequestParam ProductDto productDto) {
-        this.productServiceImpl.add(productDto);
+    ResponseEntity add(@RequestBody ProductRequest productRequest) {
+        this.productServiceImpl.add(productRequest);
         return ResponseEntity.status(200).body("Ürün Eklendi.");
     }
 
