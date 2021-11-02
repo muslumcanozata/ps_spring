@@ -18,6 +18,14 @@ public interface ProductDao extends JpaRepository<ProductEntity, Integer> {
     List<ProductEntity> findByEntityStatus(EntityStatus entityStatus);
 
     @Modifying
+    @Query("update ProductEntity p set p.stock = p.stock + :amount where p.id = :id")
+    void increaseStock(Integer id, Float amount);
+
+    @Modifying
+    @Query("update ProductEntity p set p.stock = p.stock - :amount where p.id = :id")
+    void decreaseStock(Integer id, Float amount);
+
+    @Modifying
     @Query("update ProductEntity p set p.entityStatus = 1 where p.id = :id")
     void deleteProduct(@Param("id") Integer id);
 
