@@ -3,7 +3,6 @@ package net.productsellint.entities.concretes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,12 +23,6 @@ public class AmountTypeEntity {
 
     @OneToMany(mappedBy = "amountTypeEntity")
     private List<ProductEntity> productEntities;
-
-    @OneToMany(mappedBy = "amountTypeEntity", fetch = FetchType.LAZY)
-    private List<StockEntity> stockEntities;
-
-    @OneToMany(mappedBy = "amountTypeEntity", fetch = FetchType.LAZY)
-    private List<OrderEntity> orderEntities;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
