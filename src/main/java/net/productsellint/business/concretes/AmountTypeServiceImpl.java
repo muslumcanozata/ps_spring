@@ -1,28 +1,28 @@
-package net.productsellint.business.concretes; // java web uygulamaları com. ile başlar
+package net.productsellint.business.concretes;
 
+import net.productsellint.business.abstracts.AmountTypeService;
 import net.productsellint.dataAccess.abstracts.AmountTypeDao;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
+import net.productsellint.dataTransferObjects.concretes.AmountTypeRequest;
 import net.productsellint.entities.concretes.AmountTypeEntity;
 import net.productsellint.entities.concretes.EntityStatus;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AmountTypeServiceImpl { // interfaceden implemente edilmeli
+public class AmountTypeServiceImpl implements AmountTypeService {
     private final AmountTypeDao amountTypeDao;
     private final ModelMapper mapper;
 
-    @Autowired// buna gerek yok
     public AmountTypeServiceImpl(AmountTypeDao amountTypeDao, ModelMapper mapper) {
-        super();//buna gerek yok
         this.amountTypeDao = amountTypeDao;
         this.mapper = mapper;
     }
 
+    @Override
     public List<AmountTypeDto> getAll() {
         return this.amountTypeDao.findByEntityStatus(EntityStatus.ACTIVE)
             .stream()
@@ -30,26 +30,33 @@ public class AmountTypeServiceImpl { // interfaceden implemente edilmeli
             .collect(Collectors.toList());
     }
 
-    public void add(AmountTypeDto amountTypeDto) {
-        AmountTypeEntity amountTypeEntity = mapper.map(amountTypeDto, AmountTypeEntity.class);
+    @Override
+    public void add(AmountTypeRequest amountTypeRequest) {
+        AmountTypeEntity amountTypeEntity = mapper.map(amountTypeRequest, AmountTypeEntity.class);
         this.amountTypeDao.save(amountTypeEntity);
     }
 
+    @Override
     public void deleteAmountType(Integer id) {
         this.amountTypeDao.deleteAmountType(id);
     }
 
+    @Override
     public void disableAmountType(Integer id) {
         this.amountTypeDao.disableAmountType(id);
     }
 
+    @Override
     public void activateAmountType(Integer id) {
         this.amountTypeDao.activateAmountType(id);
     }
 
+    @Override
     public AmountTypeDto getByType(String type) {
         return mapper.map(this.amountTypeDao.getByType(type), AmountTypeDto.class);
     }
+
+    @Override
     public AmountTypeDto getById(Integer id) {
         return mapper.map(this.amountTypeDao.getById(id), AmountTypeDto.class);
     }

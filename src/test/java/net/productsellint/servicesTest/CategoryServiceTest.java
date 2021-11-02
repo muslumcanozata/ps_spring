@@ -4,6 +4,7 @@ import net.productsellint.business.concretes.CategoryServiceImpl;
 import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
 import net.productsellint.entities.concretes.CategoryEntity;
+import net.productsellint.entities.concretes.CategoryRequest;
 import net.productsellint.entities.concretes.EntityStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,8 +39,8 @@ public class CategoryServiceTest {
         categoryEntityList.add(new CategoryEntity(4, "KAHVALTILIK", EntityStatus.ACTIVE));
         categoryEntityList.add(new CategoryEntity(5, "KAHVALTILIK", EntityStatus.ACTIVE));
 
-        categoryDtoList.add(new CategoryDto(4, "KAHVALTILIK", EntityStatus.ACTIVE));
-        categoryDtoList.add(new CategoryDto(5, "KAHVALTILIK", EntityStatus.ACTIVE));
+        categoryDtoList.add(new CategoryDto(4, "KAHVALTILIK", 0));
+        categoryDtoList.add(new CategoryDto(5, "KAHVALTILIK", 0));
 
         when(categoryDao.findByEntityStatus(EntityStatus.ACTIVE)).thenReturn(categoryEntityList);
         when(mapper.map(categoryEntityList.get(0), CategoryDto.class)).thenReturn(categoryDtoList.get(0));
@@ -56,13 +57,13 @@ public class CategoryServiceTest {
     @Test
     public void testAdd() {
         CategoryEntity categoryEntity = new CategoryEntity(4, "KAHVALTILIK", EntityStatus.ACTIVE);
-        CategoryDto categoryDto = new CategoryDto(4, "KAHVALTILIK", EntityStatus.ACTIVE);
+        CategoryRequest categoryRequest = new CategoryRequest("KAHVALTILIK", 0);
 
-        when(mapper.map(categoryDto, CategoryEntity.class)).thenReturn(categoryEntity);
+        when(mapper.map(categoryRequest, CategoryEntity.class)).thenReturn(categoryEntity);
 
         ///doNothing().doThrow(RuntimeException.class).when(categoryDao).save(categoryEntity);
 
-        categoryServiceImpl.add(categoryDto);
+        categoryServiceImpl.add(categoryRequest);
 
         Mockito.verify(categoryDao, Mockito.times(1)).save(categoryEntity);
     }
@@ -114,7 +115,7 @@ public class CategoryServiceTest {
 
         CategoryDto dto = new CategoryDto();
         dto.setCategoryName(categoryEntity.getCategoryName());
-        dto.setStatus(categoryEntity.getEntityStatus());
+        dto.setStatus(0);
         dto.setId(categoryEntity.getId());
 
         when(this.categoryDao.getById(id)).thenReturn(categoryEntity);
@@ -135,7 +136,7 @@ public class CategoryServiceTest {
 
         CategoryDto dto = new CategoryDto();
         dto.setCategoryName(categoryEntity.getCategoryName());
-        dto.setStatus(categoryEntity.getEntityStatus());
+        dto.setStatus(0);
         dto.setId(categoryEntity.getId());
 
         when(this.categoryDao.getByCategoryName(name)).thenReturn(categoryEntity);

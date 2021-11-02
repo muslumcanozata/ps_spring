@@ -1,22 +1,19 @@
 package net.productsellint.business.abstracts;
 
-import net.productsellint.core.utilities.results.DataResult;
-import net.productsellint.core.utilities.results.Result;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
-import org.springframework.http.ResponseEntity;
+import net.productsellint.dataTransferObjects.concretes.AmountTypeRequest;
 
 import java.util.List;
 
 public interface AmountTypeService {
-    ResponseEntity<DataResult<List<AmountTypeDto>>> getAll();
+    List<AmountTypeDto> getAll();
 
-    ResponseEntity<Result> add(AmountTypeDto amountTypeDto);
+    void add(AmountTypeRequest amountTypeRequest);
 
-    ResponseEntity<Result> deleteAmountType(Integer id);
-    ResponseEntity<Result> activateAmountType(Integer id);
-    ResponseEntity<Result> disableAmountType(Integer id);
+    void deleteAmountType(Integer id);
+    void activateAmountType(Integer id);
+    void disableAmountType(Integer id);
 
-
-    ResponseEntity<DataResult<AmountTypeDto>> getByType(String type);
-    ResponseEntity<DataResult<AmountTypeDto>> getById(Integer id);
+    AmountTypeDto getByType(String type);
+    AmountTypeDto getById(Integer id);
 }

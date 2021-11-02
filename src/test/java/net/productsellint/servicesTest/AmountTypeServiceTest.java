@@ -4,6 +4,7 @@ package net.productsellint.servicesTest;
 import net.productsellint.business.concretes.AmountTypeServiceImpl;
 import net.productsellint.dataAccess.abstracts.AmountTypeDao;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
+import net.productsellint.dataTransferObjects.concretes.AmountTypeRequest;
 import net.productsellint.entities.concretes.AmountTypeEntity;
 import net.productsellint.entities.concretes.EntityStatus;
 import org.junit.Test;
@@ -38,8 +39,8 @@ public class AmountTypeServiceTest {
         amountTypeEntity.add(new AmountTypeEntity(2,"Kilogram", EntityStatus.ACTIVE));
 
         List<AmountTypeDto> amountTypeDto = new ArrayList<>();
-        amountTypeDto.add(new AmountTypeDto(1,"Kilogram", EntityStatus.ACTIVE));
-        amountTypeDto.add(new AmountTypeDto(2,"Kilogram", EntityStatus.ACTIVE));
+        amountTypeDto.add(new AmountTypeDto(1,"Kilogram", 0));
+        amountTypeDto.add(new AmountTypeDto(2,"Kilogram", 0));
 
         when(amountTypeDao.findByEntityStatus(EntityStatus.ACTIVE)).thenReturn(amountTypeEntity);
         when(mapper.map(amountTypeEntity.get(0), AmountTypeDto.class)).thenReturn(amountTypeDto.get(0));
@@ -56,13 +57,13 @@ public class AmountTypeServiceTest {
 
     @Test
     public void testAdd() {
-        AmountTypeDto amountTypeDto = new AmountTypeDto(1,"Kilogram", EntityStatus.ACTIVE);
+        AmountTypeRequest amountTypeRequest = new AmountTypeRequest("Kilogram", 0);
         AmountTypeEntity amountTypeEntity = new AmountTypeEntity(1,"Kilogram", EntityStatus.ACTIVE);
 
-        when(mapper.map(amountTypeDto, AmountTypeEntity.class)).thenReturn(amountTypeEntity);
+        when(mapper.map(amountTypeRequest, AmountTypeEntity.class)).thenReturn(amountTypeEntity);
         ///doNothing().doThrow(RuntimeException.class).when(amountTypeDao).save(amountTypeEntity);
 
-        amountTypeServiceImpl.add(amountTypeDto);
+        amountTypeServiceImpl.add(amountTypeRequest);
 
         Mockito.verify(amountTypeDao, Mockito.times(1)).save(amountTypeEntity);
     }
@@ -120,7 +121,7 @@ public class AmountTypeServiceTest {
 
         AmountTypeDto amountTypeDto = new AmountTypeDto();
         amountTypeDto.setType(amountTypeEntity.getType());
-        amountTypeDto.setStatus(amountTypeEntity.getEntityStatus());
+        amountTypeDto.setStatus(0);
         amountTypeDto.setId(amountTypeEntity.getId());
 
         when(this.amountTypeDao.getById(id)).thenReturn(amountTypeEntity);
@@ -141,7 +142,7 @@ public class AmountTypeServiceTest {
 
         AmountTypeDto amountTypeDto = new AmountTypeDto();
         amountTypeDto.setType(amountTypeEntity.getType());
-        amountTypeDto.setStatus(amountTypeEntity.getEntityStatus());
+        amountTypeDto.setStatus(0);
         amountTypeDto.setId(amountTypeEntity.getId());
 
         when(this.amountTypeDao.getByType(name)).thenReturn(amountTypeEntity);
