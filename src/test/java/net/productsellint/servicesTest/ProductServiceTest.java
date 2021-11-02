@@ -6,6 +6,7 @@ import net.productsellint.dataAccess.abstracts.AmountTypeDao;
 import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataAccess.abstracts.ProductDao;
 import net.productsellint.dataTransferObjects.concretes.ProductDto;
+import net.productsellint.dataTransferObjects.concretes.ProductRequest;
 import net.productsellint.entities.concretes.AmountTypeEntity;
 import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.EntityStatus;
@@ -174,18 +175,17 @@ public class ProductServiceTest {
         productEntity.setCategoryEntity(categoryEntity);
         productEntity.setAmountTypeEntity(amountTypeEntity);
         productEntity.setEntityStatus(EntityStatus.ACTIVE);
-        ProductDto productDto = new ProductDto();
-        productDto.setId(1);
-        productDto.setCategoryId(1);
-        productDto.setAmountTypeId(1);
-        productDto.setStatus(EntityStatus.ACTIVE);
+        ProductRequest productRequest = new ProductRequest();
+        productRequest.setCategoryId(1);
+        productRequest.setAmountTypeId(1);
+        productRequest.setStatus(0);
         EntityStatus entityStatus = EntityStatus.ACTIVE;
 
-        when(categoryDao.findById(productDto.getId())).thenReturn(java.util.Optional.of(categoryEntity));
-        when(amountTypeDao.findById(amountTypeEntity.getId())).thenReturn(java.util.Optional.of(amountTypeEntity));
+        when(categoryDao.findById(productRequest.getCategoryId())).thenReturn(java.util.Optional.of(categoryEntity));
+        when(amountTypeDao.findById(productRequest.getAmountTypeId())).thenReturn(java.util.Optional.of(amountTypeEntity));
         ///doNothing().doThrow(RuntimeException.class).when(productDao).save(productEntity);
 
-        productServiceImpl.add(productDto);
+        productServiceImpl.add(productRequest);
 
         Mockito.verify(productDao, Mockito.times(1)).save(productEntity);
     }
