@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: appname
+  jpa:
+    hibernate:
+      ddl-auto: update
+      generate_statistics: false
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+      open-in-view: false
+      generate-ddl: true
+      temp:
+        use_jdbc_metadata_defaults: false
+  datasource:
+    dataSourceClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/etrade
+    username: postgres
+    password: Password1
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 2
