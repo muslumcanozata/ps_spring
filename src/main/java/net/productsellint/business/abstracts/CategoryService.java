@@ -2,7 +2,7 @@ package net.productsellint.business.abstracts;
 
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
 import net.productsellint.entities.concretes.CategoryEntity;
-import net.productsellint.entities.concretes.CategoryRequest;
+import net.productsellint.dataTransferObjects.concretes.CategoryRequest;
 
 import java.util.List;
 

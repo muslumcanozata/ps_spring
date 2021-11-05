@@ -4,7 +4,7 @@ import net.productsellint.business.concretes.CategoryServiceImpl;
 import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
 import net.productsellint.entities.concretes.CategoryEntity;
-import net.productsellint.entities.concretes.CategoryRequest;
+import net.productsellint.dataTransferObjects.concretes.CategoryRequest;
 import net.productsellint.entities.concretes.EntityStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;

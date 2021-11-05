@@ -1,4 +1,4 @@
-package net.productsellint.entities.concretes;
+package net.productsellint.dataTransferObjects.concretes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,7 +2,7 @@ package net.productsellint.api.controllers;
 
 import net.productsellint.business.abstracts.CategoryService;
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
-import net.productsellint.entities.concretes.CategoryRequest;
+import net.productsellint.dataTransferObjects.concretes.CategoryRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
