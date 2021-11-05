@@ -60,6 +60,7 @@ public class OrderEntity {
     public OrderEntity(String orderList, Date deliveryForecast, Integer userId, DeliveryStatus deliveryStatus, EntityStatus entityStatus) {
         this.orderList = orderList;
         this.deliveryForecast = deliveryForecast;
+        this.userEntity = new UserEntity();
         this.userEntity.setId(userId);
         this.deliveryStatus = deliveryStatus;
         this.entityStatus = entityStatus;

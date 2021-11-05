@@ -20,7 +20,7 @@ public interface OrderService {
     void setOrderToOnTheWay(Integer id);
     void setOrderToDelivered(Integer id);
 
-    void add(OrderRequest orderDto);
+    void add(OrderRequest orderRequest);
 
     void delete(Integer id);
     void disable(Integer id);
