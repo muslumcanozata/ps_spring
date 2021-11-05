@@ -1,8 +1,8 @@
 package net.productsellint.business.concretes;
 
+import net.productsellint.business.abstracts.AmountTypeService;
+import net.productsellint.business.abstracts.CategoryService;
 import net.productsellint.business.abstracts.ProductService;
-import net.productsellint.dataAccess.abstracts.AmountTypeDao;
-import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataAccess.abstracts.ProductDao;
 import net.productsellint.dataTransferObjects.concretes.ProductDto;
 import net.productsellint.dataTransferObjects.concretes.ProductRequest;
@@ -10,10 +10,8 @@ import net.productsellint.entities.concretes.AmountTypeEntity;
 import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.EntityStatus;
 import net.productsellint.entities.concretes.ProductEntity;
-import net.productsellint.exception.custom.AmountTypeNotFoundException;
-import net.productsellint.exception.custom.CategoryNotFoundException;
+import net.productsellint.exception.custom.ProductNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,16 +24,14 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao;
-    private final CategoryDao categoryDao;
-    private final AmountTypeDao amountTypeDao;
+    private final CategoryService categoryService;
+    private final AmountTypeService amountTypeService;
     private final ModelMapper mapper;
 
-    @Autowired
-    public ProductServiceImpl(ProductDao productDao, CategoryDao categoryDao, AmountTypeDao amountTypeDao, ModelMapper mapper) {
-        super();
+    public ProductServiceImpl(ProductDao productDao, CategoryService categoryService, AmountTypeService amountTypeService, ModelMapper mapper) {
         this.productDao = productDao;
-        this.categoryDao = categoryDao;
-        this.amountTypeDao = amountTypeDao;
+        this.categoryService = categoryService;
+        this.amountTypeService = amountTypeService;
         this.mapper = mapper;
     }
 
@@ -68,9 +64,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void add(ProductRequest productRequest) {
-        CategoryEntity categoryEntity = this.categoryDao.findById(productRequest.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productRequest.getCategoryId()));
-        AmountTypeEntity amountTypeEntity = this.amountTypeDao.findById(productRequest.getAmountTypeId()).orElseThrow(() -> new AmountTypeNotFoundException(productRequest.getAmountTypeId()));
-        EntityStatus entityStatus = EntityStatus.ACTIVE;
+        CategoryEntity categoryEntity = this.categoryService.findById(productRequest.getCategoryId());
+        AmountTypeEntity amountTypeEntity = this.amountTypeService.findById(productRequest.getAmountTypeId());
+        EntityStatus entityStatus = EntityStatus.getStatus(productRequest.getStatus());
         ProductEntity productEntity = new ProductEntity(
                 productRequest.getProductName(),
                 productRequest.getUnitPrice(),

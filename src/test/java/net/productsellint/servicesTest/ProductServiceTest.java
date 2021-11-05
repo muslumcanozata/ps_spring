@@ -1,9 +1,9 @@
 package net.productsellint.servicesTest;
 
 
+import net.productsellint.business.concretes.AmountTypeServiceImpl;
+import net.productsellint.business.concretes.CategoryServiceImpl;
 import net.productsellint.business.concretes.ProductServiceImpl;
-import net.productsellint.dataAccess.abstracts.AmountTypeDao;
-import net.productsellint.dataAccess.abstracts.CategoryDao;
 import net.productsellint.dataAccess.abstracts.ProductDao;
 import net.productsellint.dataTransferObjects.concretes.ProductDto;
 import net.productsellint.dataTransferObjects.concretes.ProductRequest;
@@ -37,10 +37,10 @@ public class ProductServiceTest {
     private ProductDao productDao;
 
     @Mock
-    private CategoryDao categoryDao;
+    private CategoryServiceImpl categoryServiceImpl;
 
     @Mock
-    private AmountTypeDao amountTypeDao;
+    private AmountTypeServiceImpl amountTypeServiceImpl;
 
     @Mock
     private ModelMapper mapper;
@@ -171,7 +171,6 @@ public class ProductServiceTest {
         AmountTypeEntity amountTypeEntity = new AmountTypeEntity();
         amountTypeEntity.setId(1);
         ProductEntity productEntity = new ProductEntity();
-        productEntity.setId(1);
         productEntity.setCategoryEntity(categoryEntity);
         productEntity.setAmountTypeEntity(amountTypeEntity);
         productEntity.setEntityStatus(EntityStatus.ACTIVE);
@@ -181,8 +180,8 @@ public class ProductServiceTest {
         productRequest.setStatus(0);
         EntityStatus entityStatus = EntityStatus.ACTIVE;
 
-        when(categoryDao.findById(productRequest.getCategoryId())).thenReturn(java.util.Optional.of(categoryEntity));
-        when(amountTypeDao.findById(productRequest.getAmountTypeId())).thenReturn(java.util.Optional.of(amountTypeEntity));
+        when(categoryServiceImpl.findById(productRequest.getCategoryId())).thenReturn(categoryEntity);
+        when(amountTypeServiceImpl.findById(productRequest.getAmountTypeId())).thenReturn(amountTypeEntity);
         ///doNothing().doThrow(RuntimeException.class).when(productDao).save(productEntity);
 
         productServiceImpl.add(productRequest);
