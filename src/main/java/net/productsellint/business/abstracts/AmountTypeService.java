@@ -2,6 +2,7 @@ package net.productsellint.business.abstracts;
 
 import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeRequest;
+import net.productsellint.entities.concretes.AmountTypeEntity;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface AmountTypeService {
 
     AmountTypeDto getByType(String type);
     AmountTypeDto getById(Integer id);
+
+    AmountTypeEntity findById(Integer id);
 }
