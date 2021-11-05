@@ -1,10 +1,10 @@
 package net.productsellint.business.concretes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.productsellint.business.abstracts.OrderService;
+import net.productsellint.business.abstracts.StockService;
 import net.productsellint.dataAccess.abstracts.OrderDao;
-import net.productsellint.dataAccess.abstracts.ProductDao;
 import net.productsellint.dataTransferObjects.concretes.OrderDto;
 import net.productsellint.dataTransferObjects.concretes.OrderRequest;
 import net.productsellint.dataTransferObjects.concretes.OrderSingleRequest;
@@ -27,15 +27,14 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
-    private final ProductDao productDao;
+    private final StockService stockService;
     private final ModelMapper modelMapper;
-    private final Gson gsonBuilder;
+    private final static Gson gson = new GsonBuilder().create();
 
-    public OrderServiceImpl(OrderDao orderDao, ProductDao productDao, ModelMapper modelMapper, Gson gsonBuilder) {
+    public OrderServiceImpl(OrderDao orderDao, StockService stockService, ModelMapper modelMapper) {
         this.orderDao = orderDao;
-        this.productDao = productDao;
+        this.stockService = stockService;
         this.modelMapper = modelMapper;
-        this.gsonBuilder = gsonBuilder;
     }
 
     public List<OrderDto> findByDeliveryStatusAndPage(DeliveryStatus deliveryStatus, int pageNo, int pageSize) {
@@ -103,7 +102,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     public void add(OrderRequest orderRequest) {
-        String orderList = gsonBuilder.toJson(orderRequest.getOrderSingleRequestList());
+        String orderList = gson.toJson(orderRequest.getOrderSingleRequestList());
+
         OrderEntity orderEntity = new OrderEntity(
                 orderList,
                 orderRequest.getDeliveryForecast(),
@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
                 orderRequest.getEntityStatus()
         );
         for(OrderSingleRequest orderSingleRequest : orderRequest.getOrderSingleRequestList()) {
-            this.productDao.decreaseStock(orderSingleRequest.getProductId(), orderSingleRequest.getAmount());
+            this.stockService.decreaseStock(orderSingleRequest.getProductId(), orderSingleRequest.getAmount());
         }
         this.orderDao.save(orderEntity);
     }
@@ -120,9 +120,9 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void delete(Integer id) {
         OrderEntity orderEntity = this.orderDao.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
-        List<OrderSingleRequest> orderSingleRequestList = Arrays.asList(new Gson().fromJson(orderEntity.getOrderList(), OrderSingleRequest[].class));
+        List<OrderSingleRequest> orderSingleRequestList = Arrays.asList(gson.fromJson(orderEntity.getOrderList(), OrderSingleRequest[].class));
         for(OrderSingleRequest orderSingleRequest : orderSingleRequestList) {
-            this.productDao.decreaseStock(orderSingleRequest.getProductId(), orderSingleRequest.getAmount());
+            this.stockService.increaseStock(orderSingleRequest.getProductId(), orderSingleRequest.getAmount());
         }
         this.orderDao.deleteOrder(id);
     }
