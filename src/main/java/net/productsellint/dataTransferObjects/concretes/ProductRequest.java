@@ -3,6 +3,7 @@ package net.productsellint.dataTransferObjects.concretes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.productsellint.entities.concretes.StockEntity;
 
 @Data
 @AllArgsConstructor
@@ -12,6 +13,6 @@ public class ProductRequest {
     private Double unitPrice;
     private Integer categoryId;
     private Integer amountTypeId;
-    private Float stock;
+    private StockEntity stock;
     private Integer status;
 }

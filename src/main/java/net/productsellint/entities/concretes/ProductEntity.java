@@ -29,19 +29,20 @@ public class ProductEntity {
     @JoinColumn(name = "amounttype_id", referencedColumnName = "id")
     private AmountTypeEntity amountTypeEntity;
 
-    @Column(name = "stock")
-    private Float stock;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stocks_id", referencedColumnName = "id")
+    private StockEntity stockEntity;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private EntityStatus entityStatus;
 
-    public ProductEntity(String productName, Double unitPrice, CategoryEntity categoryEntity, AmountTypeEntity amountTypeEntity, Float stock, EntityStatus entityStatus) {
+    public ProductEntity(String productName, Double unitPrice, CategoryEntity categoryEntity, AmountTypeEntity amountTypeEntity, StockEntity stockEntity, EntityStatus entityStatus) {
         this.productName = productName;
         this.unitPrice = unitPrice;
         this.categoryEntity = categoryEntity;
         this.amountTypeEntity = amountTypeEntity;
-        this.stock = stock;
+        this.stockEntity = stockEntity;
         this.entityStatus = entityStatus;
     }
 }
