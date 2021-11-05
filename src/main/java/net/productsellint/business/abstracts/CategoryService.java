@@ -1,6 +1,7 @@
 package net.productsellint.business.abstracts;
 
 import net.productsellint.dataTransferObjects.concretes.CategoryDto;
+import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.CategoryRequest;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface CategoryService {
 
     CategoryDto getByCategoryName(String categoryName);
     CategoryDto getById(Integer id);
+
+    CategoryEntity findById(Integer id);
 }

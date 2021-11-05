@@ -6,6 +6,7 @@ import net.productsellint.dataTransferObjects.concretes.AmountTypeDto;
 import net.productsellint.dataTransferObjects.concretes.AmountTypeRequest;
 import net.productsellint.entities.concretes.AmountTypeEntity;
 import net.productsellint.entities.concretes.EntityStatus;
+import net.productsellint.exception.custom.CategoryNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +60,11 @@ public class AmountTypeServiceImpl implements AmountTypeService {
     @Override
     public AmountTypeDto getById(Integer id) {
         return mapper.map(this.amountTypeDao.getById(id), AmountTypeDto.class);
+    }
+
+    @Override
+    public AmountTypeEntity findById(Integer id) {
+        AmountTypeEntity amountTypeEntity = this.amountTypeDao.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+        return amountTypeEntity;
     }
 }

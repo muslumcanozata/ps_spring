@@ -6,10 +6,12 @@ import net.productsellint.dataTransferObjects.concretes.CategoryDto;
 import net.productsellint.entities.concretes.CategoryEntity;
 import net.productsellint.entities.concretes.CategoryRequest;
 import net.productsellint.entities.concretes.EntityStatus;
+import net.productsellint.exception.custom.CategoryNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,5 +62,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getById(Integer id) {
         return mapper.map(this.categoryDao.getById(id), CategoryDto.class);
+    }
+
+    @Override
+    public CategoryEntity findById(Integer id) {
+        CategoryEntity categoryEntity = this.categoryDao.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+        return categoryEntity;
     }
 }
