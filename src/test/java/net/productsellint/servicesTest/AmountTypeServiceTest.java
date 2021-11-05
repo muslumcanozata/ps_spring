@@ -17,6 +17,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -150,5 +151,20 @@ public class AmountTypeServiceTest {
         AmountTypeDto amountTypeDto1 = amountTypeServiceImpl.getByType(amountTypeEntity.getType());
 
         assertEquals(amountTypeDto1.getType(), amountTypeDto.getType());
+    }
+
+    @Test
+    public void testFindById() {
+        AmountTypeEntity amountTypeEntity = new AmountTypeEntity();
+        amountTypeEntity.setId(3);
+        amountTypeEntity.setEntityStatus(EntityStatus.ACTIVE);
+        amountTypeEntity.setType("Kilogram");
+
+        when(amountTypeDao.findById(amountTypeEntity.getId())).thenReturn(Optional.of(amountTypeEntity));
+
+        AmountTypeEntity amountTypeEntity1 = amountTypeServiceImpl.findById(amountTypeEntity.getId());
+
+        assertEquals(amountTypeEntity1.getId(), amountTypeEntity.getId());
+        assertEquals(amountTypeEntity1.getType(), amountTypeEntity.getType());
     }
 }

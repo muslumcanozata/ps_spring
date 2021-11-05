@@ -16,6 +16,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.*;
@@ -144,5 +145,20 @@ public class CategoryServiceTest {
         CategoryDto categoryDto = categoryServiceImpl.getByCategoryName(categoryEntity.getCategoryName());
 
         assertEquals(categoryEntity.getCategoryName(), categoryDto.getCategoryName());
+    }
+
+    @Test
+    public void testFindById() {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setId(3);
+        categoryEntity.setEntityStatus(EntityStatus.ACTIVE);
+        categoryEntity.setCategoryName("");
+
+        when(categoryDao.findById(categoryEntity.getId())).thenReturn(Optional.of(categoryEntity));
+
+        CategoryEntity categoryEntity1 = categoryServiceImpl.findById(categoryEntity.getId());
+
+        assertEquals(categoryEntity1.getId(), categoryEntity.getId());
+        assertEquals(categoryEntity1.getCategoryName(), categoryEntity.getCategoryName());
     }
 }
