@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private final StockService stockService;
     private final ModelMapper modelMapper;
     private final static Gson gson = new GsonBuilder().create();
+    private final static Lock lock = new ReentrantLock();
 
     public OrderServiceImpl(OrderDao orderDao, StockService stockService, ModelMapper modelMapper) {
         this.orderDao = orderDao;
@@ -102,6 +105,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     public void add(OrderRequest orderRequest) {
+        lock.lock();
         String orderList = gson.toJson(orderRequest.getOrderSingleRequestList());
 
         OrderEntity orderEntity = new OrderEntity(
@@ -115,16 +119,23 @@ public class OrderServiceImpl implements OrderService {
             this.stockService.decreaseStock(orderSingleRequest.getProductId(), orderSingleRequest.getAmount());
         }
         this.orderDao.save(orderEntity);
+        lock.unlock();
     }
 
     @Transactional
     public void delete(Integer id) {
-        OrderEntity orderEntity = this.orderDao.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
-        List<OrderSingleRequest> orderSingleRequestList = Arrays.asList(gson.fromJson(orderEntity.getOrderList(), OrderSingleRequest[].class));
-        for(OrderSingleRequest orderSingleRequest : orderSingleRequestList) {
-            this.stockService.increaseStock(orderSingleRequest.getProductId(), orderSingleRequest.getAmount());
+        try {
+            lock.lock();
+            OrderEntity orderEntity = this.orderDao.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+            List<OrderSingleRequest> orderSingleRequestList = Arrays.asList(gson.fromJson(orderEntity.getOrderList(), OrderSingleRequest[].class));
+            for(OrderSingleRequest orderSingleRequest : orderSingleRequestList) {
+                this.stockService.increaseStock(orderSingleRequest.getProductId(), orderSingleRequest.getAmount());
+            }
+            this.orderDao.deleteOrder(id);
         }
-        this.orderDao.deleteOrder(id);
+        finally {
+            lock.unlock();
+        }
     }
 
     public void disable(Integer id) {
