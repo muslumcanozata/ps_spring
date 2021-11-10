@@ -1,7 +1,5 @@
 package net.productsellint.business.abstracts;
 
-import net.productsellint.dataTransferObjects.concretes.OrderRequest;
-import net.productsellint.dataTransferObjects.concretes.ProductRequest;
 import net.productsellint.dataTransferObjects.concretes.StockDto;
 import net.productsellint.dataTransferObjects.concretes.StockRequest;
 

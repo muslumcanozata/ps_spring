@@ -14,5 +14,5 @@ public class ProductDto {
     private Integer amountTypeId;
     private String amountTypeType;
     private Float stock;
-    private Integer status;
+    private Enum status;
 }

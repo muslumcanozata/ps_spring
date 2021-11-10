@@ -50,7 +50,7 @@ public class StocksController {
 
     @GetMapping("/activateStock")
     ResponseEntity activateStock(@RequestParam Integer id) {
-        this.stockService.deleteStock(id);
+        this.stockService.activateStock(id);
         return ResponseEntity.status(200).body(new SuccessResult("Stock aktif."));
     }
 

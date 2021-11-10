@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
     private Integer id;
     private String categoryName;
-    private Integer status;
+    private Enum status;
 }

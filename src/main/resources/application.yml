@@ -21,3 +21,5 @@ spring:
     hikari:
       maximum-pool-size: 8
       minimum-idle: 2
+jwt:
+  secret: javainuse

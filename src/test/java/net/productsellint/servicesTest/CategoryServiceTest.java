@@ -40,8 +40,8 @@ public class CategoryServiceTest {
         categoryEntityList.add(new CategoryEntity(4, "KAHVALTILIK", EntityStatus.ACTIVE));
         categoryEntityList.add(new CategoryEntity(5, "KAHVALTILIK", EntityStatus.ACTIVE));
 
-        categoryDtoList.add(new CategoryDto(4, "KAHVALTILIK", 0));
-        categoryDtoList.add(new CategoryDto(5, "KAHVALTILIK", 0));
+        categoryDtoList.add(new CategoryDto(4, "KAHVALTILIK", EntityStatus.ACTIVE));
+        categoryDtoList.add(new CategoryDto(5, "KAHVALTILIK", EntityStatus.ACTIVE));
 
         when(categoryDao.findByEntityStatus(EntityStatus.ACTIVE)).thenReturn(categoryEntityList);
         when(mapper.map(categoryEntityList.get(0), CategoryDto.class)).thenReturn(categoryDtoList.get(0));
@@ -116,7 +116,7 @@ public class CategoryServiceTest {
 
         CategoryDto dto = new CategoryDto();
         dto.setCategoryName(categoryEntity.getCategoryName());
-        dto.setStatus(0);
+        dto.setStatus(EntityStatus.ACTIVE);
         dto.setId(categoryEntity.getId());
 
         when(this.categoryDao.getById(id)).thenReturn(categoryEntity);
@@ -137,7 +137,7 @@ public class CategoryServiceTest {
 
         CategoryDto dto = new CategoryDto();
         dto.setCategoryName(categoryEntity.getCategoryName());
-        dto.setStatus(0);
+        dto.setStatus(EntityStatus.ACTIVE);
         dto.setId(categoryEntity.getId());
 
         when(this.categoryDao.getByCategoryName(name)).thenReturn(categoryEntity);

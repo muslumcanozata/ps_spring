@@ -35,7 +35,7 @@ public class StockServiceImpl implements StockService {
     public List<StockDto> getAll(int pageNo, int pageSize) {
         EntityStatus entityStatus = EntityStatus.ACTIVE;
         Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-        return this.stockDao.findByEntityStatus(entityStatus).stream().map(stockEntity -> mapper.map(stockEntity, StockDto.class)).collect(Collectors.toList());
+        return this.stockDao.findByEntityStatus(entityStatus, pageable).stream().map(stockEntity -> mapper.map(stockEntity, StockDto.class)).collect(Collectors.toList());
     }
 
     @Override

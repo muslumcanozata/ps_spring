@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,17 +15,17 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private Integer id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "name", nullable = false)
     private String name;
