@@ -22,4 +22,11 @@ spring:
       maximum-pool-size: 8
       minimum-idle: 2
 jwt:
-  secret: javainuse
+  secret: secret
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+  encoding-strength: 256
+  signing-key: MaYzkSjmkzPC57L
+  security-realm: Spring Boot JWT Example Realm

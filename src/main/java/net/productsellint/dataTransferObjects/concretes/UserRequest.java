@@ -20,6 +20,5 @@ public class UserRequest {
     private String email;
     private Date birthday;
     private Integer gender;
-    private Boolean isSuperuser;
     private Integer entityStatus;
 }
