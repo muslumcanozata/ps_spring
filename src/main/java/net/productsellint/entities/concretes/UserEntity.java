@@ -46,14 +46,14 @@ public class UserEntity implements Serializable {
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Column(name = "is_superuser", nullable = false)
-    private Boolean isSuperuser;
-
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
     private List<UserCardEntity> userCardEntities;
 
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
     private List<UserAddressEntity> userAddressEntities;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
