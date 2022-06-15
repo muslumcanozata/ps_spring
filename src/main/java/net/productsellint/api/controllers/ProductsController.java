@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/products")
 public class ProductsController {
-    private final ProductServiceImpl productServiceImpl;
+    private final ProductServiceImpl productServiceImpl; //Implar değil interfaceler overload edilmeli, @Autowired'a gerek olmadan constructor'dan
 
     @Autowired
     public ProductsController(ProductServiceImpl productServiceImpl) {
